@@ -2,7 +2,6 @@ package com.restbooker.api;
 
 import pojos.CreateTokenResponsePojo;
 import pojos.GetBookingResponsePojo;
-import pojos.BookingPojo;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -99,11 +98,13 @@ public class RestBoookerTests {
 
     public void deleteBooking(){
         baseURI = "https://restful-booker.herokuapp.com";
-       // String authToken="token=792beea3cd921e7";
+
+        String authToken="token="+createToken();
+
         int bookingId = 1;
         given()
                 .baseUri(baseURI)
-                .header("Cookie","token=792beea3cd921e7")
+                .header("Cookie",authToken)
                // .pathParams("bookingId",bookingId)
         .when()
                 .delete("/booking/1")
@@ -120,6 +121,5 @@ public class RestBoookerTests {
         //rs.createBooking();
         //rs.getBooking();
         rs.deleteBooking();
-
     }
 }
