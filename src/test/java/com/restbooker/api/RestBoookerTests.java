@@ -1,5 +1,8 @@
 package com.restbooker.api;
 
+import org.testng.SkipException;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import pojos.CreateTokenResponsePojo;
 import pojos.GetBookingResponsePojo;
 import io.restassured.RestAssured;
@@ -10,12 +13,48 @@ import static io.restassured.RestAssured.*;
 
 public class RestBoookerTests {
 
-    public void ServerHealthCheck(){
+    private String baseUri = "https://restful-booker.herokuapp.com";
+    private String authToken;
+
+    @BeforeClass
+    public void setup(){
+        System.out.println("This is setup class start");
+
+        RestAssured.baseURI = baseUri;
+        authToken = "token=" + createToken();
+
+        // Server Health check
         int statusCode;
-        RestAssured.baseURI = "https://restful-booker.herokuapp.com";
+        //RestAssured.baseURI = "https://restful-booker.herokuapp.com";
         Response response = given()
-                .baseUri( RestAssured.baseURI )
+                .baseUri(baseUri)
                 .when()
+                .get("/ping")
+                .then()
+                .extract().response();
+
+        statusCode = response.getStatusCode();
+
+        if(response.getStatusCode() != 201){
+            throw new SkipException("🚫 Server is down. Skipping all tests.");
+        }
+
+        System.out.println("-->"+response.getStatusCode());
+        System.out.println("-->"+response.getBody().asString());
+        System.out.println("Server is Alive.");
+
+        Assert.assertEquals(statusCode, 201,"Status code mismatch");
+        Assert.assertEquals(response.getBody().asString(),"Created", "Body mismatched " );
+        System.out.println("This is setup class start");
+    }
+
+    @Test(enabled = false)
+    public void ServerHealthCheck(){
+       /* int statusCode;
+        //RestAssured.baseURI = "https://restful-booker.herokuapp.com";
+        Response response = given()
+                .baseUri(baseUri)
+                .when()=
                 .get("/ping")
                 .then()
                 .extract().response();
@@ -27,18 +66,20 @@ public class RestBoookerTests {
         System.out.println("Server is Alive.");
 
         Assert.assertEquals(statusCode, 201,"Status code mismatch");
-        Assert.assertEquals(response.getBody().asString(),"Created", "Body mismatched " );
-
+        Assert.assertEquals(response.getBody().asString(),"Created", "Body mismatched " );*/
     }
 
+@Test(enabled = true)
     public String createToken(){
-        RestAssured.baseURI = "https://restful-booker.herokuapp.com";
+       // RestAssured.baseURI = "https://restful-booker.herokuapp.com";
 
         String requestBody = "{\n" +
                 "    \"username\" : \"admin\",\n" +
                 "    \"password\" : \"password123\"\n" +
                 "}";
-        CreateTokenResponsePojo response =  given()
+        CreateTokenResponsePojo response =
+        given()
+                .baseUri(baseUri)
                 .header("Content-Type","application/json")
                 .body(requestBody)
         .when()
@@ -49,6 +90,7 @@ public class RestBoookerTests {
         return response.getToken();
     }
 
+    @Test(enabled = true)
     public void createBooking(){
         String requestBody = "{\n" +
                 "    \"firstname\" : \"Alen9\",\n" +
@@ -65,7 +107,7 @@ public class RestBoookerTests {
     String token = createToken();
     System.out.println(" ++++++ ----> token is " + token);
         given()
-                .baseUri(RestAssured.baseURI)
+                .baseUri(baseUri)
                 .header("Content-Type","application/json")
                 .header("Authorization", token)
                 .body(requestBody)
@@ -75,12 +117,13 @@ public class RestBoookerTests {
                 .extract().response().getBody().prettyPrint();
 }
 
+    @Test(enabled = false)
     public void getBooking(){
-        RestAssured.baseURI = "https://restful-booker.herokuapp.com";
-        int bookingId = 1;
+       // RestAssured.baseURI = "https://restful-booker.herokuapp.com";
+        int bookingId = 2;
         GetBookingResponsePojo response =
             given()
-                .baseUri(baseURI)
+                .baseUri(baseUri)
                 .header("Accept", "application/json")
                 .pathParams("id",bookingId)
             .when()
@@ -96,16 +139,16 @@ public class RestBoookerTests {
         System.out.println(response.getBookingdates().getCheckout());
     }
 
+    @Test(enabled = false)
     public void deleteBooking(){
-        baseURI = "https://restful-booker.herokuapp.com";
+       // baseURI = "https://restful-booker.herokuapp.com";
 
         String authToken="token="+createToken();
 
         int bookingId = 1;
         given()
-                .baseUri(baseURI)
+                .baseUri(baseUri)
                 .header("Cookie",authToken)
-               // .pathParams("bookingId",bookingId)
         .when()
                 .delete("/booking/1")
         .then()
@@ -115,11 +158,11 @@ public class RestBoookerTests {
     }
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         RestBoookerTests rs = new RestBoookerTests();
         //rs.ServerHealthCheck();
-        //rs.createBooking();
-        //rs.getBooking();
-        rs.deleteBooking();
-    }
+      //  rs.createBooking();
+       // rs.getBooking();
+       // rs.deleteBooking();
+    }*/
 }
