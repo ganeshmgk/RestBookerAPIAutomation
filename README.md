@@ -3,9 +3,10 @@
 This project provides automated test coverage for the [Restful Booker API](https://restful-booker.herokuapp.com/) using **Java**, **RestAssured**, and **TestNG**.  
 It includes test cases for health checks, authentication, booking creation, booking retrieval, and booking deletion.
 
+https://restful-booker.herokuapp.com/apidoc/index.html
 ## 🧪 Technologies Used
 
-- Java 17+
+- Java 8
 - RestAssured
 - TestNG
 - Maven
