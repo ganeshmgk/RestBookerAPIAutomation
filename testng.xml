@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true"
+          name="/Users/gmidatana/Documents/JavaSpringProjects/RestBookerAPIAutomation">
+        <groups>
+            <run>
+                <include name = "sanity"/>
+                <include name = "regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.restbooker.api.RestBoookerTests">
+                <methods>
+                    <include name="ServerHealthCheck"/>
+                    <include name="createToken"/>
+                    <include name="createBooking"/>
+                    <include name="getBooking"/>
+                    <include name="deleteBooking"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
