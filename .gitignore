@@ -12,6 +12,7 @@ target/
 *.iml
 *.ipr
 Test.java
+BankAccountTest.java
 
 ### Eclipse ###
 .apt_generated

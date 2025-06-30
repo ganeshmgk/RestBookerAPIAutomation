@@ -48,13 +48,13 @@ public class RestBoookerTests {
         System.out.println("This is setup class start");
     }
 
-    @Test(enabled = false)
+    @Test(groups = {"regression"})
     public void ServerHealthCheck(){
-       /* int statusCode;
+        int statusCode;
         //RestAssured.baseURI = "https://restful-booker.herokuapp.com";
         Response response = given()
                 .baseUri(baseUri)
-                .when()=
+                .when()
                 .get("/ping")
                 .then()
                 .extract().response();
@@ -66,10 +66,10 @@ public class RestBoookerTests {
         System.out.println("Server is Alive.");
 
         Assert.assertEquals(statusCode, 201,"Status code mismatch");
-        Assert.assertEquals(response.getBody().asString(),"Created", "Body mismatched " );*/
+        Assert.assertEquals(response.getBody().asString(),"Created", "Body mismatched " );
     }
 
-@Test(enabled = true)
+@Test(groups = {"regression"})
     public String createToken(){
        // RestAssured.baseURI = "https://restful-booker.herokuapp.com";
 
@@ -90,7 +90,7 @@ public class RestBoookerTests {
         return response.getToken();
     }
 
-    @Test(enabled = true)
+    @Test(groups = {"regression", "sanity"})
     public void createBooking(){
         String requestBody = "{\n" +
                 "    \"firstname\" : \"Alen9\",\n" +
@@ -117,7 +117,7 @@ public class RestBoookerTests {
                 .extract().response().getBody().prettyPrint();
 }
 
-    @Test(enabled = false)
+    @Test()
     public void getBooking(){
        // RestAssured.baseURI = "https://restful-booker.herokuapp.com";
         int bookingId = 2;
@@ -139,7 +139,7 @@ public class RestBoookerTests {
         System.out.println(response.getBookingdates().getCheckout());
     }
 
-    @Test(enabled = false)
+    @Test()
     public void deleteBooking(){
        // baseURI = "https://restful-booker.herokuapp.com";
 
@@ -156,13 +156,4 @@ public class RestBoookerTests {
                 .response()
                 .prettyPrint();
     }
-
-
-    /*public static void main(String[] args) {
-        RestBoookerTests rs = new RestBoookerTests();
-        //rs.ServerHealthCheck();
-      //  rs.createBooking();
-       // rs.getBooking();
-       // rs.deleteBooking();
-    }*/
 }
