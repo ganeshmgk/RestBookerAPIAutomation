@@ -1,7 +1,9 @@
 package com.restbooker.api;
 
+import dataProviders.BookingDataProvider;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pojos.CreateTokenResponsePojo;
 import pojos.GetBookingResponsePojo;
@@ -90,9 +92,12 @@ public class RestBoookerTests {
         return response.getToken();
     }
 
-    @Test(groups = {"regression", "sanity"})
-    public void createBooking(){
-        String requestBody = "{\n" +
+    @Test(groups = {"regression", "sanity"},
+            dataProvider = "bookingPayload",
+            dataProviderClass = BookingDataProvider.class
+    )
+    public void createBooking(String requestBody){
+        /*String requestBody = "{\n" +
                 "    \"firstname\" : \"Alen9\",\n" +
                 "    \"lastname\" : \"Ben9\",\n" +
                 "    \"totalprice\" : 9977,\n" +
@@ -102,7 +107,7 @@ public class RestBoookerTests {
                 "        \"checkout\" : \"2025-03-05\"\n" +
                 "    },\n" +
                 "    \"additionalneeds\" : \"games12345\"\n" +
-                "}";
+                "}";*/
 
     String token = createToken();
     System.out.println(" ++++++ ----> token is " + token);
