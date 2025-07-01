@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite">
+<suite name="All Test Suite" parallel="methods" thread-count="4">
+<!--    <suite name="All Test Suite" parallel="classes" thread-count="2">-->  <!-- This will work at clsses level    -->
+<!--    <suite name="All Test Suite" parallel="tests" thread-count="2">--> <!-- This will work at suite level    -->
     <test verbose="2" preserve-order="true"
           name="/Users/gmidatana/Documents/JavaSpringProjects/RestBookerAPIAutomation">
         <groups>
@@ -19,6 +21,9 @@
                     <include name="deleteBooking"/>
                 </methods>
             </class>
+           <!-- <class name = "com.restbooker.api.RestBoookerTests"/>-->
+
+
         </classes>
     </test>
 </suite>
